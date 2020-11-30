@@ -1,0 +1,18 @@
+
+{
+  "manifest_version": 2,
+  "name": "PBL",
+  "version": "1",
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+"browser_action": {
+  "default_popup": "popup.html",
+  "default_title": "PBL"
+}
+}
