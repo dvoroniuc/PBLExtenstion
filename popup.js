@@ -1,17 +1,14 @@
 document.addEventListener(
-  "DOMContentLoaded",
-  function () {
-    document.querySelector("button").addEventListener("click", newMessage);
+  'DOMContentLoaded',
+  () => {
+    const getDataItem = () => document.querySelector('#item').value;
 
-    function newMessage() {
+    const newMessage = () => {
       chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
         chrome.tabs.sendMessage(tabs[0].id, getDataItem());
       });
-    }
-
-    function getDataItem() {
-      return document.querySelector("#item").value;
-    }
+    };
+    document.querySelector('button').addEventListener('click', newMessage);
   },
   false
 );

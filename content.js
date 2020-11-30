@@ -1,41 +1,16 @@
-chrome.runtime.onMessage.addListener(newMessage);
+const newMessage = (message, sender, sendResponse) => {
+  console.log(sender);
+  console.log(sendResponse);
+  const inputs = document.querySelectorAll(`input`);
+  const textAreas = document.querySelectorAll(`textarea`);
 
-function newMessage(message, sender, sendResponse) {
-  const reg = new RegExp(message, "gi");
+  const matched = [...inputs, textAreas];
 
-  const matched = document.querySelectorAll(`input[value=${message}]`);
-
-  [...matched].map((a) => {
-    console.log(a);
-    a.style.border = "thick solid red";
+  matched.map((a) => {
+    a.value === message
+      ? (a.style.border = 'thick solid red')
+      : (a.style.border = '');
   });
-  // document.querySelectorAll(`*`).forEach((node) => {
-  //   if (node.nodeName === "INPUT") {
-  //     console.log(
-  //       String(node.value)
-  //         .replace(/(\r\n|\n|\r)/gm, "")
-  //         .replace(/\s+/g, " ")
-  //         .replace("\t", "")
-  //         .trim()
-  //     );
-  //   }
-  //   if (node.nodeName === "DIV" || "P") {
-  //     console.log(
-  //       String(node.textContent)
-  //         .replace(/(\r\n|\n|\r)/gm, "")
-  //         .replace(/\s+/g, " ")
-  //         .replace("\t", "")
-  //         .trim()
-  //     );
-  //   }
-  //   if (node.nodeName === "A") {
-  //     console.log(
-  //       String(node.text)
-  //         .replace(/(\r\n|\n|\r)/gm, "")
-  //         .replace(/\s+/g, " ")
-  //         .replace("\t", "")
-  //         .trim()
-  //     );
-  //   }
-  // });
-}
+};
+
+chrome.runtime.onMessage.addListener(newMessage);
