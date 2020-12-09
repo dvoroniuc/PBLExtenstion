@@ -3,18 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <br />
-
-    <label for="item"> Please provide your sensitive data </label>
+    <label for="item"> Please provide your sensitive data: </label>
     <br />
+    <div id="error" style="display: none; color: red">
+      Value should not be an empty string
+    </div>
     <input id="item" placeholder="add new data" type="text" />
     <br />
     <hr />
     <br />
-
-    <button>Add</button>
+    <div>Data list:</div>
+    <div id="fields"></div>
+    <button id="add">Add</button>
+    <button id="send">Send</button>
     <script src="popup.js" charset="utf-8"></script>
   </body>
 </html>
