@@ -212,6 +212,7 @@ function showAddSensitiveDataForm() {
 
 function getCSRFToken() {
   fetch('https://localhost:8081/auth/_csrf').then((data)=> {
+    console.log(data)
     CSRFToken = data.csrf_token;
   })
 }
