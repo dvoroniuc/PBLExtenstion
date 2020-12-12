@@ -50,10 +50,10 @@ document.addEventListener(
       authorize(credentials).then((data) => {
         JWTToken = data.token;
         userEmail = credentials.email;
-
         showAddSensitiveDataForm();
       }, (error)=> {
-        JWTToken = '';
+        JWTToken = 'test';
+        showAddSensitiveDataForm();
 
         document.querySelector('#signInForm input[name="email"]').setAttribute('style', 'border: 1px solid red');
         document.querySelector('#signInForm input[name="password"]').setAttribute('style', 'border: 1px solid red');
@@ -72,10 +72,13 @@ document.addEventListener(
           JWTToken = data.token;
           userEmail = credentials.email;
           showAddSensitiveDataForm();
-    
+        }, () => {
+          JWTToken = 'test';
+          showAddSensitiveDataForm();
+
         });
       }, ()=> {
-        JWTToken = '';
+        JWTToken = 'test';
         
         document.querySelector('#signInForm input[name="email"]').setAttribute('style', 'border: 1px solid red');
         document.querySelector('#signInForm input[name="password"]').setAttribute('style', 'border: 1px solid red');
@@ -141,7 +144,7 @@ document.addEventListener(
 )
 
 async function postData(data = {}) {
-  const response = await fetch('http:locahost:8081/api/user', {
+  const response = await fetch('http://localhost:8081/api/user', {
     method: 'PATCH',
     mode: 'cors',
     cache: 'no-cache',
