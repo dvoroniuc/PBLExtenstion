@@ -3,22 +3,86 @@
   <head>
     <meta charset="UTF-8" />
     <title>Document</title>
+    <script src="popup.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ropa+Sans&display=swap" rel="stylesheet">
   </head>
   <body>
-    <br />
-    <label for="item"> Please provide your sensitive data: </label>
-    <br />
-    <div id="error" style="display: none; color: red">
-      Value should not be an empty string
+    <div class="turnOnOff">
+      <span class="text">Enabled</span>
+      <img src="images/turnOnOff.png" alt="turnOnOff" id="turnOnOff">
     </div>
-    <input id="item" placeholder="add new data" type="text" />
-    <br />
-    <hr />
-    <br />
-    <div>Data list:</div>
-    <div id="fields"></div>
-    <button id="add">Add</button>
-    <button id="send">Send</button>
-    <script src="popup.js" charset="utf-8"></script>
+    
+    <div id="logIn" class="standartForm">
+      <div class="logo">
+        <img src="images/closed-eye.png" alt="logo">
+      </div>
+
+      <h2>Sign In</h2> 
+
+      <form id="signInForm">
+        <div class="input-fields block-column">
+          <input type="email" placeholder="Email" name="email" /> 
+          <input type="password" placeholder="Password" name="password"/> 
+        </div>
+
+        <div class="buttons block-row">
+          <button class="button outlined" id="openRegisterFormButton"  type="button">Register</button>
+          <button id="signInButton" class="button positive" type="button">Sign In</button> 
+        </div>
+      </form>
+    </div>
+
+    <div id="register" class="standartForm">
+      <div class="logo">
+        <img src="images/closed-eye.png" alt="logo">
+      </div>
+
+      <h2>Registration</h2> 
+
+      <form id="registerForm">
+        <div class="input-fields block-column">
+          <input type="email" placeholder="Email" name="email"/>
+          <input class="mb-5" type="password" placeholder="Enter the password"/>
+          <input type="password" placeholder="Confirm the password" name="password"/>
+        </div>
+      </form>
+
+      <div class="buttons block-column">
+        <button id="registerButton" class="button positive" type="button">Register</button> 
+        <button class="button outlined" id="openLoginFormButton">Back to LogIn</button>
+      </div>
+     
+    </div>
+
+    <div id="addSensitiveData" class="standartForm">
+      <div class="logo">
+        <img src="images/opened-eye.png" alt="logo">
+      </div>
+
+      <h3 class="mb-5"> Please provide your sensitive data: </h3>
+      
+      <div id="error" style="display: none; color: red">
+        Value should not be an empty string
+      </div>
+
+      <input id="item" placeholder="Add new data" type="text" />
+ 
+      <div class="data-list-wrapper">
+        <h3 class="mb-5">Data list:</h3>
+        <span id="no-items">No items yet</span>
+        <ul id="fields"></ul>
+      </div>
+
+      <div class="buttons">
+        <!-- <button class="button outlined" id="add">Add</button> -->
+        <button class="button positive w-100" id="send">Send</button>
+      </div>
+    </div>
+
+    <div class="logo">
+      <span class="title">EyeCatcher</span>
+    </div>
   </body>
 </html>

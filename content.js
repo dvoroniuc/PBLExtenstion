@@ -12,28 +12,62 @@ async function getData(id) {
   return await response.json();
 }
 
-const newMessage = (message, sender, sendResponse) => {
-  console.log(sender);
-  console.log(sendResponse);
+const getCommonItems = (array1, array2) => {
+  let common = [];
 
-  getData(message.id)
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-    });
+  for (let i = 0; i < array1.length; i++) {
+    for (let j = 0; j < array2.length; j++) {
+      if (array1[i] == array2[j]) {
+        common.push(array1[i]);
+      }
+    }
+  }
 
-  const inputs = document.querySelectorAll(`input`);
-  const textAreas = document.querySelectorAll(`textarea`);
+  return common;
+};
 
-  const matched = [...inputs, textAreas];
+const changeBorder = (element, to) => {
+  element.style.borderColor = to;
+};
 
-  matched.map((a) => {
-    a.value === message
-      ? (a.style.border = 'thick solid red')
-      : (a.style.border = '');
+const onWarning = (arr, elements) => {
+  elements.forEach((element) => {
+    if (arr.includes(element.value)) {
+      element.style.border = 'thick solid red';
+    }
   });
 };
+
+const onEmpty = (arr, elements) => {
+  elements.forEach((element) => {
+    if (!arr.includes(element.value)) {
+      element.style.border = '';
+    }
+  });
+};
+
+async function newMessage(message, sender, sendResponse) {
+  let timerId;
+  clearInterval(timerId);
+
+  const data = await getData(message.id);
+
+  function dataArives() {
+    const inputs = document.querySelectorAll(`input`);
+    const textAreas = document.querySelectorAll(`textarea`);
+
+    const matched = [
+      ...[...inputs].map((val) => val.value),
+      ...[...textAreas].map((val) => val.value),
+    ];
+
+    const commonItems = getCommonItems(matched, data.user.PersonalData);
+    onWarning(commonItems, inputs);
+    onWarning(commonItems, textAreas);
+    onEmpty(commonItems, inputs);
+    onEmpty(commonItems, textAreas);
+  }
+  timerId = setInterval(() => dataArives(), 500);
+}
 
 chrome.runtime.onMessage.addListener(newMessage);

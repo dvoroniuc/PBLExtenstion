@@ -1,7 +1,7 @@
 
 {
   "manifest_version": 2,
-  "name": "PBL",
+  "name": "EyeCatcher",
   "version": "1",
   "content_scripts": [
     {
@@ -11,8 +11,13 @@
       "js": ["content.js"]
     }
   ],
-"browser_action": {
-  "default_popup": "popup.html",
-  "default_title": "PBL"
-}
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "EyeCatcher",
+    "default_icon": {
+      "16": "images/closed-eye.png",
+      "24": "images/opened-eye.png",
+      "32": "images/opened-eye.png" 
+    }
+  }
 }

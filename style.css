@@ -2,36 +2,51 @@
   margin: 0;
   padding: 0;
 }
+
 html {
-  height: 100%;
+  /* height: 100%; */
+  border-radius: 5px;
 }
 
 body {
   background-color: rgb(199, 184, 199);
-  height: 100%;
-  font-family: Arial, Helvetica, sans-serif;
+  /* height: 200px; */
+  width: 83%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+input:focus, button:focus {
+  outline: none;
+  border: 1px solid darkblue;
 }
 
 .content {
   padding-bottom: 90px;
 }
+/* 
+#logIn {
 
-.logIn {
-  text-align: center;
-  background: rgb(199, 184, 199);
-  width: fit-content;
-  border: 2px solid white;
-  padding: 5px;
-  margin: 2vh auto 2vh auto;
-  border-radius: 10px;
 }
 
-.register {
-  width: fit-content;
-  border: 2px solid white;
-  padding: 5px;
-  border-radius: 10px;
-  margin: 2vh auto 2vh auto;
+#register {
+
+}
+
+#addSensitiveData {
+
+} */
+
+.standartForm {
+  padding: 20px 15px;
+  text-align: center;
+  width: 100%;
+  margin: 40px 5px;
+  padding: 20px 10px;
+  border-top: 1px solid black;
+}
+
+.input-fields {
+  margin: 30px 0;
 }
 
 input {
@@ -39,16 +54,110 @@ input {
   border-radius: 5px;
   border-width: 0px;
   height: 25px;
-  margin: 5px;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  min-height: 35px;
 }
 
-button {
+input::placeholder {
+  font-style: italic;
+}
+
+button.positive {
+  font-weight: 700;
+  border: 1px solid rgba(111, 90, 124, 0.705);
   background-color: rgba(111, 90, 124, 0.705);
-  color: rgb(199, 184, 199);
-  height: 25px;
-  width: 135px;
-  padding: 2px;
-  border-width: 0px;
+  color: #ffffff;
+  /* color: rgb(199, 184, 199); */
+  min-height: 35px;
   border-radius: 5px;
+  flex: 1;
+  cursor: pointer;
+}
+
+button.outlined {
+  font-weight: 700;
+  background-color: transparent;
+  border: 1px solid rgba(111, 90, 124, 0.705);
+  min-height: 35px;
+  border-radius: 5px;
+  flex: 1;
+  cursor: pointer;
+}
+
+button:focus {
+  filter: brightness(1.5);
+}
+
+.block-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.block-column :first-child {
+  margin-bottom: 5px;
+}
+
+.block-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.block-row :first-child {
+  margin-right: 5px;
+}
+
+.mb-5 {
+  margin-bottom: 5px;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.data-list-wrapper {
+  font-size: 12px;
+  margin: 20px 10px 10px 20px;
+}
+
+li {
+  margin-bottom: 5px;
+  list-style: none;
+  font-size: 14px;
+}
+
+li::before {
+  content: '✔';
+  padding-right: 10px;
+}
+
+#fields {
+  text-align: left;
+}
+
+.logo img {
+  max-width: 86px;
+}
+
+.logo .title {
+  font-family: 'Ropa Sans';
+  font-size: 25px;
+  margin-top: 20px;
+  padding: 34px 40px 0;
+}
+
+.turnOnOff img {
+  max-width: 25px;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  padding: 10px;
+  right: 0;
+  top: -2px;
+}
+
+.turnOnOff span.text {
+  position: absolute;
+  right: 0;
+  padding: 15px;
+  left: 0;
+  top: -2px;
 }
