@@ -11,7 +11,9 @@ let sensitiveDataForm;
 let loginForm;
 let registerForm;
 
-let isLoading = false;
+let isDisabled = false;
+
+let userEmail;
 
 document.addEventListener(
   'DOMContentLoaded',
@@ -30,6 +32,14 @@ document.addEventListener(
     document.getElementById('openRegisterFormButton').addEventListener('click', openRegisterForm)
     document.getElementById('openLoginFormButton').addEventListener('click', openLoginForm)
 
+    document.getElementById('turnOnOff').addEventListener('click', ()=> {
+      if(isDisabled){
+        enableEverything();
+      } else {
+        disableEverything();
+      }
+    });
+
     // On LOGIN BUTTON CLICK
     document.getElementById('signInButton').addEventListener('click', () => {
       const credentials = {
@@ -38,15 +48,17 @@ document.addEventListener(
       }
 
       authorize(credentials).then((data) => {
-        console.log(data);
-        // JWTToken = !!!!!!!!!!!!!!!!
+        JWTToken = data.token;
+        userEmail = credentials.email;
+
         showAddSensitiveDataForm();
-      }, ()=> {
-        console.log('rejected')
-        JWTToken = 'test';
-        showAddSensitiveDataForm();
+      }, (error)=> {
+        JWTToken = '';
+
+        document.querySelector('#signInForm input[name="email"]').setAttribute('style', 'border: 1px solid red');
+        document.querySelector('#signInForm input[name="password"]').setAttribute('style', 'border: 1px solid red');
       });
-    })
+    });
 
     // ON Register button click
     document.getElementById('registerButton').addEventListener('click', () => {
@@ -56,22 +68,20 @@ document.addEventListener(
       }
 
       register(credentials).then((data) => {
-        console.log(data);
         authorize(credentials).then((data) => {
-          console.log(data);
-          // JWTToken = !!!!!!!!!!!!!!!!
-          JWTToken = 'test';
+          JWTToken = data.token;
+          userEmail = credentials.email;
           showAddSensitiveDataForm();
     
         });
       }, ()=> {
-        console.log('rejected');
-        JWTToken = 'test';
-
-        showAddSensitiveDataForm();
+        JWTToken = '';
+        
+        document.querySelector('#signInForm input[name="email"]').setAttribute('style', 'border: 1px solid red');
+        document.querySelector('#signInForm input[name="password"]').setAttribute('style', 'border: 1px solid red');
+        document.querySelector('#signInForm input[name="password2"]').setAttribute('style', 'border: 1px solid red');
       });
-    })
-
+    });
 
     // Open right template based on JWT token
     if (!JWTToken) {
@@ -85,8 +95,7 @@ document.addEventListener(
 
     const newMessage = () => {
       postData({
-        email: 'email',
-        password: 'password',
+        email: userEmail,
         personalData: data,
       }).then((data) => {
         chrome.tabs.query(
@@ -104,12 +113,12 @@ document.addEventListener(
         document.getElementById('no-items').setAttribute('style', 'display:block');
       }
       
-      if (getDataItem() !== '') {
+      if (getDataItem() !== '' && !data.includes(getDataItem())) {
         data.push(getDataItem());
         document.getElementById('no-items').setAttribute('style', 'display:none');
         
         var node = document.createElement("LI");
-        console.log(getDataItem());
+
         var textnode = document.createTextNode(getDataItem());
         node.appendChild(textnode);
         fields.appendChild(node);
@@ -129,11 +138,11 @@ document.addEventListener(
     document.querySelector('#send').addEventListener('click', newMessage);
   },
   false
-);
+)
 
 async function postData(data = {}) {
-  const response = await fetch('http://localhost:8081/api/user', {
-    method: 'POST',
+  const response = await fetch('http:locahost:8081/api/user', {
+    method: 'PATCH',
     mode: 'cors',
     cache: 'no-cache',
     credentials: 'same-origin',
@@ -150,14 +159,35 @@ async function postData(data = {}) {
 }
 
 function openRegisterForm() {
-  console.log('openRegisterForm')
-
   showLoginForm = false;
   loginFormTemplate.setAttribute('style', 'display: none');
 
   showRegisterForm = true;
   registerFormTemplate.setAttribute('style', 'display: block');
 
+}
+
+function disableEverything() {
+  isDisabled = true;
+
+  loginFormTemplate.setAttribute('style', 'display: none');
+  registerFormTemplate.setAttribute('style', 'display: none');
+  sensitiveDataForm.setAttribute('style', 'display:none');
+  document.getElementById('turnOnOffText').innerHTML='Disabled'
+}
+
+function enableEverything() {
+  isDisabled = false;
+  document.getElementById('turnOnOffText').innerHTML='Enabled';
+
+  if(JWTToken) {
+    sensitiveDataForm.setAttribute('style', 'display:block');
+    return;
+  }
+
+  loginFormTemplate.setAttribute('style', 'display: block');
+  registerFormTemplate.setAttribute('style', 'display: none');
+  sensitiveDataForm.setAttribute('style', 'display:none');
 }
 
 function openLoginForm() {
@@ -180,7 +210,7 @@ async function authorize(credentials) {
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: credentials,
+    body: JSON.stringify(credentials),
   });
   return await response.json();
 }
@@ -211,8 +241,16 @@ function showAddSensitiveDataForm() {
 }
 
 function getCSRFToken() {
-  fetch('https://localhost:8081/auth/_csrf').then((data)=> {
-    console.log(data)
-    CSRFToken = data.csrf_token;
+  fetch('http://localhost:8081/auth/_csrf',  {method: "GET"})
+  .then((data)=> {
+    const reader = data.body.getReader();
+
+    reader.read().then((data)=> {
+      var string = new TextDecoder("utf-8").decode(data.value);
+      CSRFToken = JSON.parse(string).csrf_token;
+    });
+
+  }, (error) => {
+    console.log('error')
   })
 }

@@ -10,7 +10,7 @@
   </head>
   <body>
     <div class="turnOnOff">
-      <span class="text">Enabled</span>
+      <span class="text" id="turnOnOffText">Enabled</span>
       <img src="images/turnOnOff.png" alt="turnOnOff" id="turnOnOff">
     </div>
     
@@ -23,7 +23,7 @@
 
       <form id="signInForm">
         <div class="input-fields block-column">
-          <input type="email" placeholder="Email" name="email" /> 
+          <input type="email" placeholder="Email" name="email"  name="password2"/> 
           <input type="password" placeholder="Password" name="password"/> 
         </div>
 
@@ -44,7 +44,7 @@
       <form id="registerForm">
         <div class="input-fields block-column">
           <input type="email" placeholder="Email" name="email"/>
-          <input class="mb-5" type="password" placeholder="Enter the password"/>
+          <input class="mb-5" type="password" placeholder="Enter the password"  name="password2"/>
           <input type="password" placeholder="Confirm the password" name="password"/>
         </div>
       </form>
@@ -64,7 +64,8 @@
       <h3 class="mb-5"> Please provide your sensitive data: </h3>
       
       <div id="error" style="display: none; color: red">
-        Value should not be an empty string
+        Value should not be repeated and not be an empty string
+      </br>
       </div>
 
       <input id="item" placeholder="Add new data" type="text" />
@@ -81,7 +82,7 @@
       </div>
     </div>
 
-    <div class="logo">
+    <div class="logo text">
       <span class="title">EyeCatcher</span>
     </div>
   </body>

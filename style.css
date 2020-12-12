@@ -144,6 +144,10 @@ li::before {
   padding: 34px 40px 0;
 }
 
+.logo.text {
+  margin-top: 40px;
+}
+
 .turnOnOff img {
   max-width: 25px;
   cursor: pointer;
