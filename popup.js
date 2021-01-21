@@ -52,9 +52,7 @@ document.addEventListener(
         userEmail = credentials.email;
         showAddSensitiveDataForm();
       }, (error)=> {
-        JWTToken = 'test';
-        showAddSensitiveDataForm();
-
+        console.error(error);
         document.querySelector('#signInForm input[name="email"]').setAttribute('style', 'border: 1px solid red');
         document.querySelector('#signInForm input[name="password"]').setAttribute('style', 'border: 1px solid red');
       });
@@ -67,18 +65,13 @@ document.addEventListener(
         password: document.querySelector('#registerForm input[name="password"]').value,
       }
 
-      register(credentials).then((data) => {
+      register(credentials).then(() => {
         authorize(credentials).then((data) => {
           JWTToken = data.token;
           userEmail = credentials.email;
           showAddSensitiveDataForm();
-        }, () => {
-          JWTToken = 'test';
-          showAddSensitiveDataForm();
-
         });
       }, ()=> {
-        JWTToken = 'test';
         
         document.querySelector('#signInForm input[name="email"]').setAttribute('style', 'border: 1px solid red');
         document.querySelector('#signInForm input[name="password"]').setAttribute('style', 'border: 1px solid red');
@@ -144,7 +137,7 @@ document.addEventListener(
 )
 
 async function postData(data = {}) {
-  const response = await fetch('http://localhost:8081/api/user', {
+  const response = await fetch('https://localhost:8081/api/user', {
     method: 'PATCH',
     mode: 'cors',
     cache: 'no-cache',
@@ -202,7 +195,7 @@ function openLoginForm() {
 }
 
 async function authorize(credentials) {
-  const response = await fetch('http://localhost:8081/auth/sign-in', {
+  const response = await fetch('https://localhost:8081/auth/sign-in', {
     method: 'POST',
     mode: 'cors',
     cache: 'no-cache',
@@ -219,7 +212,7 @@ async function authorize(credentials) {
 }
 
 async function register(credentials) {
-  const response = await fetch('http://localhost:8081/auth/sign-up', {
+  const response = await fetch('https://localhost:8081/auth/sign-up', {
     method: 'POST',
     mode: 'cors',
     cache: 'no-cache',
@@ -230,8 +223,8 @@ async function register(credentials) {
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: credentials,
-  });
+    body: JSON.stringify(credentials),
+  }).then((err)=>console.log(err));
   return await response.json();
 }
 
@@ -244,7 +237,7 @@ function showAddSensitiveDataForm() {
 }
 
 function getCSRFToken() {
-  fetch('http://localhost:8081/auth/_csrf',  {method: "GET"})
+  fetch('https://localhost:8081/auth/_csrf',  {method: "GET"})
   .then((data)=> {
     const reader = data.body.getReader();
 

@@ -1,5 +1,5 @@
 async function getData(id) {
-  const response = await fetch(`http://localhost:8081/api/user/${id}`, {
+  const response = await fetch(`https://localhost:8081/api/user/${id}`, {
     method: 'GET',
     cache: 'no-cache',
     credentials: 'same-origin',
